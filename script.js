@@ -18,7 +18,7 @@ function displayFavorites() {
     favorites.forEach(app => {
         favoriteAppsContainer.innerHTML += `
             <div class="app">
-                <img src="https://bmasshd.click/logo/bm.png" alt="${app}">
+                <img src="${app}.jpg" alt="${app}">
                 <span>${app} <i class="heart" data-app="${app}">♥</i></span>
             </div>`;
     });
