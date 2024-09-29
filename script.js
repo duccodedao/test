@@ -13,16 +13,15 @@ function saveFavorites(favorites) {
 function displayFavorites() {
     let favorites = loadFavorites();
     let favoriteAppsContainer = document.getElementById('favorite-apps');
-    favoriteAppsContainer.innerHTML = ''; // Xóa nội dung cũ
+    favoriteAppsContainer.innerHTML = '';
 
     favorites.forEach(app => {
-        // Tạo thẻ chứa logo, tên và link của ứng dụng yêu thích
         favoriteAppsContainer.innerHTML += `
             <div class="app">
-                <a href="${app.link}" target="_blank">
-                    <img src="${app.image}" alt="${app.name}" class="app-logo">
+                <a href="${app.href}" target="_blank">
+                    <img src="${app.src}" alt="${app.name}">
                 </a>
-                <span>${app.name}</span>
+                <span>${app.name} <i class="heart" data-app="${app.name}">♥</i></span>
             </div>`;
     });
 }
@@ -30,21 +29,24 @@ function displayFavorites() {
 // Xử lý khi bấm vào icon trái tim
 document.addEventListener('click', function(event) {
     if (event.target.classList.contains('heart')) {
-        let appContainer = event.target.closest('.app'); // Tìm thẻ .app gần nhất
-        let appName = appContainer.querySelector('span').textContent.trim(); // Lấy tên app từ span
-        let appImageSrc = appContainer.querySelector('img').src; // Lấy link ảnh từ src
-        let appLink = appContainer.querySelector('a').href; // Lấy link từ href
+        let appElement = event.target.closest('.app');
+        let app = {
+            name: event.target.getAttribute('data-app'),
+            src: appElement.querySelector('img').getAttribute('src'),
+            href: appElement.querySelector('a').getAttribute('href')
+        };
         let favorites = loadFavorites();
 
-        let favoriteIndex = favorites.findIndex(fav => fav.name === appName);
+        // Kiểm tra nếu ứng dụng đã được yêu thích
+        let existingAppIndex = favorites.findIndex(fav => fav.name === app.name);
 
-        if (favoriteIndex !== -1) {
+        if (existingAppIndex !== -1) {
             // Nếu app đã có trong yêu thích, thì bỏ đi
-            favorites.splice(favoriteIndex, 1);
+            favorites.splice(existingAppIndex, 1);
             event.target.textContent = '♡'; // Thay đổi icon về chưa chọn
         } else {
-            // Nếu chưa có thì thêm vào danh sách yêu thích với tất cả dữ liệu
-            favorites.push({ name: appName, image: appImageSrc, link: appLink });
+            // Nếu chưa có thì thêm vào
+            favorites.push(app);
             event.target.textContent = '♥'; // Thay đổi icon thành chọn
         }
 
@@ -59,9 +61,8 @@ window.onload = function() {
     // Đặt trạng thái icon yêu thích khi trang được tải
     let favorites = loadFavorites();
     document.querySelectorAll('.heart').forEach(heart => {
-        let appContainer = heart.closest('.app');
-        let appName = appContainer.querySelector('span').textContent.trim();
-        if (favorites.some(fav => fav.name === appName)) {
+        let appName = heart.getAttribute('data-app');
+        if (favorites.some(app => app.name === appName)) {
             heart.textContent = '♥';
         }
     });
