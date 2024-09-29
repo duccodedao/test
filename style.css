@@ -12,25 +12,25 @@ body {
 
 .menu {
     display: grid;
-    grid-template-columns: repeat(5, 1fr); /* Luôn giữ 5 cột */
+    grid-template-columns: repeat(5, 1fr); /* Luôn 5 cột */
     gap: 20px;
     padding: 20px;
+    justify-items: center;
 }
 
 .app {
     background-color: #fff;
-    border-radius: 15px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    border-radius: 20px;
+    text-align: center;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     overflow: hidden;
-    width: 100%;
-    max-width: 150px;
-    justify-self: center; /* Căn giữa ứng dụng */
+    padding: 10px;
+    justify-self: center;
 }
 
 .app:hover {
     transform: translateY(-10px);
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
 }
 
 .app a {
@@ -38,26 +38,38 @@ body {
     color: #333;
     display: block;
     text-align: center;
-    padding: 20px;
+}
+
+.app-logo {
+    background-color: #f9f9f9;
+    border-radius: 50%;
+    padding: 15px;
+    margin-bottom: 10px;
+    display: inline-block;
 }
 
 .app-logo img {
-    width: 80px;
-    height: 80px;
+    width: 60px;
+    height: 60px;
     object-fit: contain;
-    margin-bottom: 15px;
 }
 
 .app-info span {
-    font-size: 18px;
+    font-size: 14px;
     font-weight: 600;
-    display: block;
     color: #444;
 }
 
-/* Điều chỉnh kích thước các ứng dụng trên thiết bị nhỏ hơn */
+/* Điều chỉnh để các ứng dụng vẫn nhỏ gọn và phù hợp trên di động */
 @media screen and (max-width: 768px) {
     .app {
-        max-width: 100px; /* Thu nhỏ ứng dụng trên màn hình nhỏ */
+        max-width: 90px;
+    }
+    .app-logo img {
+        width: 50px;
+        height: 50px;
+    }
+    .app-info span {
+        font-size: 12px;
     }
 }
