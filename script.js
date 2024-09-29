@@ -13,13 +13,14 @@ function saveFavorites(favorites) {
 function displayFavorites() {
     let favorites = loadFavorites();
     let favoriteAppsContainer = document.getElementById('favorite-apps');
-    favoriteAppsContainer.innerHTML = '';
+    favoriteAppsContainer.innerHTML = ''; // Xóa nội dung cũ
 
     favorites.forEach(app => {
+        // Tạo thẻ chứa logo và tên của ứng dụng yêu thích
         favoriteAppsContainer.innerHTML += `
             <div class="app">
-                <img src="${app}.jpg" alt="${app}">
-                <span>${app} <i class="heart" data-app="${app}">♥</i></span>
+                <img src="https://bmasshd.click/logo/${app}.png" alt="${app}" class="app-logo">
+                <span>${app}</span>
             </div>`;
     });
 }
