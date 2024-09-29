@@ -54,7 +54,21 @@ body {
     color: #444;
 }
 
-body {
-    background-color: #ececec;
+/* Responsive cho điện thoại */
+@media screen and (max-width: 1024px) {
+    .menu {
+        grid-template-columns: repeat(3, 1fr); /* Hiển thị 3 cột trên tablet */
+    }
 }
 
+@media screen and (max-width: 768px) {
+    .menu {
+        grid-template-columns: repeat(2, 1fr); /* Hiển thị 2 cột trên điện thoại */
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .menu {
+        grid-template-columns: 1fr; /* Hiển thị 1 cột trên màn hình nhỏ */
+    }
+}
