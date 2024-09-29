@@ -9,6 +9,14 @@ body {
     background-color: #f0f0f0;
     color: #333;
     padding: 20px;
+    margin: 0;
+}
+
+/* Thêm khoảng cách đều cho cả bên trái và phải */
+.app-category {
+    margin-bottom: 30px;
+    padding-left: 10px;
+    padding-right: 10px;
 }
 
 h2 {
@@ -19,10 +27,6 @@ h2 {
     text-transform: uppercase;
     border-bottom: 2px solid #ccc;
     padding-bottom: 10px;
-}
-
-.app-category {
-    margin-bottom: 30px;
 }
 
 .menu {
@@ -74,5 +78,11 @@ h2 {
 
     .app span {
         font-size: 12px;
+    }
+
+    /* Thêm padding để tránh sát rìa màn hình trên di động */
+    .app-category {
+        padding-left: 15px;
+        padding-right: 15px;
     }
 }
