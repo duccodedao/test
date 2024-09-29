@@ -12,10 +12,9 @@ body {
 
 .menu {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 30px;
-    padding: 40px;
-    justify-items: center;
+    grid-template-columns: repeat(5, 1fr); /* Luôn giữ 5 cột */
+    gap: 20px;
+    padding: 20px;
 }
 
 .app {
@@ -24,7 +23,9 @@ body {
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     overflow: hidden;
-    width: 150px;
+    width: 100%;
+    max-width: 150px;
+    justify-self: center; /* Căn giữa ứng dụng */
 }
 
 .app:hover {
@@ -54,21 +55,9 @@ body {
     color: #444;
 }
 
-/* Responsive cho điện thoại */
-@media screen and (max-width: 1024px) {
-    .menu {
-        grid-template-columns: repeat(3, 1fr); /* Hiển thị 3 cột trên tablet */
-    }
-}
-
+/* Điều chỉnh kích thước các ứng dụng trên thiết bị nhỏ hơn */
 @media screen and (max-width: 768px) {
-    .menu {
-        grid-template-columns: repeat(2, 1fr); /* Hiển thị 2 cột trên điện thoại */
-    }
-}
-
-@media screen and (max-width: 480px) {
-    .menu {
-        grid-template-columns: 1fr; /* Hiển thị 1 cột trên màn hình nhỏ */
+    .app {
+        max-width: 100px; /* Thu nhỏ ứng dụng trên màn hình nhỏ */
     }
 }
