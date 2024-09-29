@@ -67,3 +67,28 @@ window.onload = function() {
         }
     });
 };
+
+
+
+// Kiểm tra nếu Telegram Web App API có sẵn
+if (window.Telegram.WebApp) {
+    // Lấy thông tin người dùng khi miniapp được khởi động
+    let user = Telegram.WebApp.initDataUnsafe.user;
+
+    // Nếu thông tin người dùng có sẵn
+    if (user) {
+        // Lấy ảnh đại diện và tên
+        let userName = user.first_name + " " + (user.last_name || "");
+        let avatarUrl = user.photo_url || 'default_avatar.png'; // Nếu không có ảnh thì sử dụng ảnh mặc định
+
+        // Hiển thị tên và ảnh đại diện trong phần header
+        document.getElementById('user-name').textContent = userName;
+        document.getElementById('user-avatar').src = avatarUrl;
+    } else {
+        // Xử lý khi không có thông tin người dùng
+        document.getElementById('user-name').textContent = "Guest";
+        document.getElementById('user-avatar').src = 'default_avatar.png'; // Ảnh mặc định nếu không có thông tin người dùng
+    }
+} else {
+    console.error("Telegram WebApp API không khả dụng.");
+}
