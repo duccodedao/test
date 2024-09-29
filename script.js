@@ -70,7 +70,7 @@ window.onload = function() {
 
 
 
-/window.Telegram.WebApp.ready(); // Đảm bảo Telegram WebApp đã sẵn sàng
+window.Telegram.WebApp.ready(); // Đảm bảo Telegram WebApp đã sẵn sàng
 
 // Kiểm tra nếu WebApp API có sẵn
 if (Telegram.WebApp && Telegram.WebApp.initDataUnsafe) {
