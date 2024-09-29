@@ -72,22 +72,21 @@ window.onload = function() {
 
 window.Telegram.WebApp.ready(); // Đảm bảo WebApp đã sẵn sàng
 
-// Lấy thông tin người dùng nếu có sẵn
+// Kiểm tra xem Telegram có trả về dữ liệu người dùng không
 if (Telegram.WebApp.initDataUnsafe) {
     let user = Telegram.WebApp.initDataUnsafe.user;
 
+    // Kiểm tra xem user có tồn tại không và có avatar không
     if (user) {
-        let userName = user.first_name + " " + (user.last_name || "");
         let avatarUrl = user.photo_url || 'IMG_20240928_151545_148.jpg'; // Sử dụng ảnh mặc định nếu không có avatar
+        let userName = user.first_name || 'Lỗi khi lấy tên'; // Sử dụng tên mặc định nếu không có tên
 
-        // Cập nhật vào phần HTML
-        document.getElementById('user-name').textContent = userName;
+        // Hiển thị avatar và tên người dùng
         document.getElementById('user-avatar').src = avatarUrl;
+        document.getElementById('user-name').textContent = userName;
     } else {
-        // Trường hợp không có thông tin người dùng
-        document.getElementById('user-name').textContent = "abc";
-        document.getElementById('user-avatar').src = 'IMG_20240928_151545_148.jpg';
+        console.error("Thông tin người dùng không tồn tại.");
     }
 } else {
-    console.error("Telegram WebApp API không khả dụng hoặc không có thông tin người dùng.");
+    console.error("Telegram WebApp API không trả về dữ liệu người dùng.");
 }
