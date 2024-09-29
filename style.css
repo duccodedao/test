@@ -8,68 +8,71 @@ body {
     font-family: 'Poppins', sans-serif;
     background-color: #f0f0f0;
     color: #333;
+    padding: 20px;
+}
+
+h2 {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 15px;
+    color: #444;
+    text-transform: uppercase;
+    border-bottom: 2px solid #ccc;
+    padding-bottom: 10px;
+}
+
+.app-category {
+    margin-bottom: 30px;
 }
 
 .menu {
     display: grid;
     grid-template-columns: repeat(5, 1fr); /* Luôn 5 cột */
     gap: 20px;
-    padding: 20px;
-    justify-items: center;
 }
 
 .app {
-    background-color: #fff;
-    border-radius: 20px;
     text-align: center;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    overflow: hidden;
-    padding: 10px;
-    justify-self: center;
 }
 
-.app:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+.app img {
+    width: 80px;
+    height: 80px;
+    border-radius: 15px; /* Bo góc logo */
+    margin-bottom: 10px;
+    transition: transform 0.3s ease;
+}
+
+.app:hover img {
+    transform: scale(1.1); /* Tăng kích thước khi hover */
+}
+
+.app span {
+    display: block;
+    font-size: 14px;
+    color: #333;
+    font-weight: 500;
+    margin-top: 5px;
 }
 
 .app a {
     text-decoration: none;
-    color: #333;
+    color: inherit;
     display: block;
-    text-align: center;
 }
 
-.app-logo {
-    background-color: #f9f9f9;
-    border-radius: 50%;
-    padding: 15px;
-    margin-bottom: 10px;
-    display: inline-block;
-}
-
-.app-logo img {
-    width: 60px;
-    height: 60px;
-    object-fit: contain;
-}
-
-.app-info span {
-    font-size: 14px;
-    font-weight: 600;
-    color: #444;
-}
-
-/* Điều chỉnh để các ứng dụng vẫn nhỏ gọn và phù hợp trên di động */
+/* Điều chỉnh kích thước các ứng dụng trên thiết bị nhỏ hơn */
 @media screen and (max-width: 768px) {
-    .app {
-        max-width: 90px;
+    .menu {
+        gap: 10px;
     }
-    .app-logo img {
-        width: 50px;
-        height: 50px;
+
+    .app img {
+        width: 60px;
+        height: 60px;
     }
-    .app-info span {
+
+    .app span {
         font-size: 12px;
     }
 }
