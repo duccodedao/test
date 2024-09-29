@@ -70,23 +70,28 @@ window.onload = function() {
 
 
 
-window.Telegram.WebApp.ready(); // Đảm bảo WebApp đã sẵn sàng
+// Kiểm tra Telegram WebApp đã sẵn sàng
+window.Telegram.WebApp.ready();
 
-// Kiểm tra xem Telegram có trả về dữ liệu người dùng không
-if (Telegram.WebApp.initDataUnsafe) {
-    let user = Telegram.WebApp.initDataUnsafe.user;
+// Kiểm tra initDataUnsafe có dữ liệu không
+let initData = Telegram.WebApp.initDataUnsafe;
+console.log(initData); // In ra console để kiểm tra dữ liệu trả về
 
-    // Kiểm tra xem user có tồn tại không và có avatar không
-    if (user) {
-        let avatarUrl = user.photo_url || 'IMG_20240928_151545_148.jpg'; // Sử dụng ảnh mặc định nếu không có avatar
-        let userName = user.first_name || 'Lỗi khi lấy tên'; // Sử dụng tên mặc định nếu không có tên
+// Kiểm tra user và photo_url có tồn tại không
+if (initData && initData.user) {
+    let user = initData.user;
 
-        // Hiển thị avatar và tên người dùng
-        document.getElementById('user-avatar').src = avatarUrl;
-        document.getElementById('user-name').textContent = userName;
-    } else {
-        console.error("Thông tin người dùng không tồn tại.");
-    }
+    // Kiểm tra và lấy ảnh đại diện từ photo_url (nếu có)
+    let avatarUrl = user.photo_url ? user.photo_url : 'default_avatar.png'; // Nếu không có avatar thì sử dụng ảnh mặc định
+    let userName = user.first_name || 'Guest';
+
+    // Cập nhật giao diện người dùng
+    document.getElementById('user-avatar').src = avatarUrl;
+    document.getElementById('user-name').textContent = userName;
+
+    // In ra console thông tin người dùng để kiểm tra
+    console.log("User name:", userName);
+    console.log("Avatar URL:", avatarUrl);
 } else {
-    console.error("Telegram WebApp API không trả về dữ liệu người dùng.");
+    console.error("Không tìm thấy thông tin người dùng từ Telegram WebApp API.");
 }
