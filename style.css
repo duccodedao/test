@@ -1,22 +1,13 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
 body {
     font-family: 'Poppins', sans-serif;
     background-color: #f0f0f0;
     color: #333;
-    padding: 20px;
     margin: 0;
+    padding: 0 10px; /* Thêm padding để tránh sát rìa */
 }
 
-/* Thêm khoảng cách đều cho cả bên trái và phải */
 .app-category {
     margin-bottom: 30px;
-    padding-left: 10px;
-    padding-right: 10px;
 }
 
 h2 {
@@ -31,7 +22,7 @@ h2 {
 
 .menu {
     display: grid;
-    grid-template-columns: repeat(5, 1fr); /* Luôn 5 cột */
+    grid-template-columns: repeat(5, 1fr);
     gap: 20px;
 }
 
@@ -42,13 +33,13 @@ h2 {
 .app img {
     width: 80px;
     height: 80px;
-    border-radius: 15px; /* Bo góc logo */
+    border-radius: 15px;
     margin-bottom: 10px;
     transition: transform 0.3s ease;
 }
 
 .app:hover img {
-    transform: scale(1.1); /* Tăng kích thước khi hover */
+    transform: scale(1.1);
 }
 
 .app span {
@@ -65,7 +56,14 @@ h2 {
     display: block;
 }
 
-/* Điều chỉnh kích thước các ứng dụng trên thiết bị nhỏ hơn */
+.heart {
+    cursor: pointer;
+    font-size: 16px;
+    margin-left: 5px;
+    color: red;
+}
+
+/* Điều chỉnh kích thước trên thiết bị di động */
 @media screen and (max-width: 768px) {
     .menu {
         gap: 10px;
@@ -78,11 +76,5 @@ h2 {
 
     .app span {
         font-size: 12px;
-    }
-
-    /* Thêm padding để tránh sát rìa màn hình trên di động */
-    .app-category {
-        padding-left: 15px;
-        padding-right: 15px;
     }
 }
