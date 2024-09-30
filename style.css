@@ -35,10 +35,47 @@ button:hover {
     background-color: #0056b3;
 }
 
-#wallet-info {
-    margin-top: 20px;
-}
-
 .hidden {
     display: none;
+}
+
+.modal {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+    position: relative;
+}
+
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    cursor: pointer;
+}
+
+#wallet-info {
+    margin-top: 20px;
+    background-color: #f0f0f0;
+    padding: 10px;
+    border-radius: 8px;
+}
+
+#wallet-options img {
+    width: 50px;
+    height: 50px;
+    margin: 10px;
+    cursor: pointer;
 }
