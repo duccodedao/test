@@ -11,10 +11,13 @@
 
 <body>
 <div class="profile-container">
-    <img id="user-avatar" src="avatars/default.png" alt="Avatar" class="avatar" onclick="showUploadButton()">
-    <span id="user-name">User Name</span>
-    <input type="file" id="avatar-input" accept="image/*" onchange="changeAvatar(event)" style="display: none;">
-    <button id="upload-btn" onclick="document.getElementById('avatar-input').click();" style="display: none;">Thay đổi ảnh đại diện</button>
+    <img id="user-avatar" src="logo-coin/bmlogo.jpg" alt="Avatar" class="avatar" onclick="showUploadButton()">
+    <div class="user-info">
+        <h2 id="user-name">Loading...</h2>
+        <p id="user-username"></p>
+    </div>
+    <input type="file" id="file-input" style="display:none;" accept="image/*" onchange="changeAvatar(event)">
+    <button id="upload-button" style="display:none;" onclick="document.getElementById('file-input').click()">Thay đổi ảnh đại diện</button>
 </div>
 
     <div class="app-category">
