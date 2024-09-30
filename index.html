@@ -10,15 +10,15 @@
     
 
 <body>
-<div class="profile-container">
-    <img id="user-avatar" src="logo-coin/bmlogo.jpg" alt="Avatar" class="avatar" onclick="showUploadButton()">
-    <div class="user-info">
-        <h2 id="user-name">Loading...</h2>
-        <p id="user-username"></p>
-    </div>
-    <input type="file" id="file-input" style="display:none;" accept="image/*" onchange="changeAvatar(event)">
-    <button id="upload-button" style="display:none;" onclick="document.getElementById('file-input').click()">Thay đổi ảnh đại diện</button>
-</div>
+<header class="header">
+        <div class="profile-container">
+            <img id="user-avatar" class="avatar" src="" alt="Avatar">
+            <div class="user-info">
+                <div id="user-name">Loading...</div>
+                <div id="user-username">@username</div>
+            </div>
+        </div>
+</header>
 
     <div class="app-category">
         <h2>Yêu Thích</h2>
