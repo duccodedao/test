@@ -88,33 +88,41 @@ h2 {
 }
 
 
-#user-name {
-    font-size: 18px;
-    font-weight: bold;
-    color: #333;
+.profile-container {
+    display: flex;
+    align-items: center;
+    margin: 20px;
 }
-
-
-
-
-
-
 
 .avatar {
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
-    cursor: pointer;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%; /* Bo tròn hình ảnh */
+    cursor: pointer; /* Thay đổi con trỏ khi hover */
+    border: 2px solid #0078ff; /* Đường viền màu */
 }
 
-#upload-btn {
+.user-info {
+    margin-left: 15px;
+}
+
+#user-name {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+#user-username {
+    color: #555;
+    font-size: 18px;
+}
+
+#upload-button {
     margin-top: 10px;
-    padding: 5px 10px;
-    font-size: 16px;
-    cursor: pointer;
-}
-
-.profile-container {
-    text-align: center;
-    margin-top: 20px;
+    padding: 10px;
+    border: none;
+    background-color: #0078ff; /* Màu nền nút */
+    color: white; /* Màu chữ */
+    border-radius: 5px; /* Bo góc */
+    cursor: pointer; /* Thay đổi con trỏ khi hover */
+    display: inline-block; /* Cho nút nằm trên cùng dòng */
 }
