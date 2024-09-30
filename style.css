@@ -100,44 +100,27 @@ h2 {
     color: #333;
 }
 
-/* Chế độ tối */
-body.dark-mode {
-    background-color: #121212;
-    color: #ffffff;
+
+
+
+
+
+
+.avatar {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    cursor: pointer;
 }
 
-body.dark-mode #header {
-    background-color: #1f1f1f;
-    color: #ffffff;
-    border-bottom: 1px solid #333;
+#upload-btn {
+    margin-top: 10px;
+    padding: 5px 10px;
+    font-size: 16px;
+    cursor: pointer;
 }
 
-body.dark-mode h2 {
-    color: #ffffff;
-    border-bottom: 2px solid #444;
-}
-
-body.dark-mode .app span {
-    color: #bbbbbb;
-}
-
-/* Chế độ sáng */
-body.light-mode {
-    background-color: #ffffff;
-    color: #333;
-}
-
-body.light-mode #header {
-    background-color: #f8f9fa;
-    color: #333;
-    border-bottom: 1px solid #ddd;
-}
-
-body.light-mode h2 {
-    color: #444;
-    border-bottom: 2px solid #ccc;
-}
-
-body.light-mode .app span {
-    color: #333;
+.profile-container {
+    text-align: center;
+    margin-top: 20px;
 }
