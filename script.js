@@ -41,6 +41,7 @@ async function connectWallet(wallet) {
         // Ẩn modal sau khi kết nối thành công
         document.getElementById("wallet-modal").classList.add("hidden");
         document.getElementById("wallet-info").classList.remove("hidden");
+        document.getElementById("connect-btn").classList.add("hidden");  // Ẩn nút connect khi đã kết nối
     } catch (error) {
         console.error("Lỗi khi kết nối ví:", error);
     }
@@ -49,4 +50,17 @@ async function connectWallet(wallet) {
 // Đóng modal khi nhấn nút đóng
 document.getElementById("close-modal").addEventListener("click", function() {
     document.getElementById("wallet-modal").classList.add("hidden");
+});
+
+// Hủy kết nối ví
+document.getElementById("disconnect-btn").addEventListener("click", async function() {
+    try {
+        await tonConnect.disconnect(); // Hủy kết nối
+
+        // Ẩn thông tin ví và hiện nút kết nối lại
+        document.getElementById("wallet-info").classList.add("hidden");
+        document.getElementById("connect-btn").classList.remove("hidden");
+    } catch (error) {
+        console.error("Lỗi khi hủy kết nối:", error);
+    }
 });
