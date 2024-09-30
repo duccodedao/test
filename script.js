@@ -132,3 +132,33 @@ window.onload = function() {
         document.getElementById('user-avatar').src = savedAvatar;
     }
 };
+
+
+
+
+
+
+
+
+// Kiểm tra chế độ đã lưu trong localStorage khi load trang
+$(document).ready(function() {
+    const theme = localStorage.getItem('theme') || 'light';
+
+    if (theme === 'dark') {
+        $('body').addClass('dark-mode');
+        $('#theme-toggle').bootstrapToggle('on');
+    } else {
+        $('body').addClass('light-mode');
+    }
+
+    // Xử lý sự kiện khi người dùng chuyển đổi chế độ
+    $('#theme-toggle').change(function() {
+        if ($(this).prop('checked')) {
+            $('body').removeClass('light-mode').addClass('dark-mode');
+            localStorage.setItem('theme', 'dark'); // Lưu trạng thái vào localStorage
+        } else {
+            $('body').removeClass('dark-mode').addClass('light-mode');
+            localStorage.setItem('theme', 'light'); // Lưu trạng thái vào localStorage
+        }
+    });
+});
