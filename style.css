@@ -1,118 +1,44 @@
 body {
-    font-family: 'Poppins', sans-serif;
-    background-color: #f0f0f0;
-    color: #333;
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
     margin: 0;
-    padding: 0 10px; /* Thêm padding để tránh sát rìa */
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
 }
 
-.app-category {
-    margin-bottom: 30px;
-}
-
-h2 {
-    font-size: 20px;
-    font-weight: 600;
-    margin-bottom: 15px;
-    color: #444;
-    text-transform: uppercase;
-    border-bottom: 2px solid #ccc;
-    padding-bottom: 10px;
-}
-
-.menu {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 20px;
-}
-
-.app {
+.container {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     text-align: center;
 }
 
-.app img {
-    width: 80px;
-    height: 80px;
-    border-radius: 15px;
-    margin-bottom: 10px;
-    transition: transform 0.3s ease;
+h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
 }
 
-.app:hover img {
-    transform: scale(1.1);
-}
-
-.app span {
-    display: block;
-    font-size: 14px;
-    color: #333;
-    font-weight: 500;
-    margin-top: 5px;
-}
-
-.app a {
-    text-decoration: none;
-    color: inherit;
-    display: block;
-}
-
-.heart {
+button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
     cursor: pointer;
-    font-size: 16px;
-    margin-left: 5px;
-    color: red;
 }
 
-/* Điều chỉnh kích thước trên thiết bị di động */
-@media screen and (max-width: 768px) {
-    .menu {
-        gap: 10px;
-    }
-
-    .app img {
-        width: 60px;
-        height: 60px;
-    }
-
-    .app span {
-        font-size: 12px;
-    }
+button:hover {
+    background-color: #0056b3;
 }
 
-
-
-
-
-
-.header {
-    background-color: #f1f1f1;
-    padding: 10px 15px; /* Giảm padding để header nhỏ lại */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+#wallet-info {
+    margin-top: 20px;
 }
 
-.profile-container {
-    display: flex;
-    align-items: center;
-}
-
-.avatar {
-    width: 70px; /* Giảm kích thước ảnh đại diện */
-    height: 70px; /* Giảm kích thước ảnh đại diện */
-    border-radius: 50%; /* Bo tròn hình ảnh */
-    cursor: default; /* Không cho phép thay đổi ảnh */
-    border: 2px solid #0078ff; /* Đường viền màu */
-}
-
-.user-info {
-    margin-left: 10px; /* Giảm khoảng cách giữa ảnh và tên */
-}
-
-#user-name {
-    font-size: 18px; /* Giảm kích thước chữ của tên */
-    font-weight: bold;
-}
-
-#user-username {
-    color: #555;
-    font-size: 14px; /* Giảm kích thước chữ của username */
+.hidden {
+    display: none;
 }
