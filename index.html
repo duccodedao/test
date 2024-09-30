@@ -10,15 +10,27 @@
     <div class="container">
         <h1>Kết Nối Ví TON</h1>
         <button id="connect-btn">Kết Nối Ví</button>
-        
+
+        <!-- Hiển thị số dư sau khi kết nối -->
         <div id="wallet-info" class="hidden">
-            <h2>Thông Tin Ví</h2>
-            <p>Địa chỉ ví: <span id="wallet-address"></span></p>
-            <p>Số dư TON: <span id="balance">0</span></p>
+            <p><strong>Địa chỉ ví:</strong> <span id="wallet-address"></span></p>
+            <p><strong>Số dư TON:</strong> <span id="wallet-balance"></span></p>
+        </div>
+
+        <!-- Modal hiển thị khi nhấn Connect -->
+        <div id="wallet-modal" class="modal hidden">
+            <div class="modal-content">
+                <span class="close-btn" id="close-modal">&times;</span>
+                <h2>Connect your wallet</h2>
+                <p>Open Wallet in Telegram or select your wallet to connect</p>
+                
+                <!-- Tùy chọn mở ví -->
+                <div id="wallet-options"></div>
+            </div>
         </div>
     </div>
 
-    <script src="https://unpkg.com/@tonconnect/sdk@latest"></script>
+    <script src="https://unpkg.com/@tonconnect/sdk@2.0.0"></script>
     <script src="script.js"></script>
 </body>
 </html>
