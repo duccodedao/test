@@ -112,44 +112,20 @@ if (Telegram.WebApp.initDataUnsafe) {
     console.error("Telegram WebApp API không khả dụng hoặc không có thông tin người dùng.");
 }
 
-// Xử lý khi người dùng tải lên ảnh đại diện
-document.getElementById('avatar-upload').addEventListener('change', function(event) {
-    const file = event.target.files[0];
+// Hiển thị nút upload khi nhấn vào ảnh
+function showUploadButton() {
+    document.getElementById('upload-btn').style.display = 'inline-block';
+}
 
+// Thay đổi ảnh đại diện sau khi người dùng tải lên ảnh mới
+function changeAvatar(event) {
+    let file = event.target.files[0];
     if (file) {
-        const reader = new FileReader();
-        
+        let reader = new FileReader();
         reader.onload = function(e) {
-            // Hiển thị ảnh đại diện đã được tải lên
-            document.getElementById('user-avatar').src = e.target.result;
-
-            // Lưu ảnh đại diện vào localStorage (nếu muốn giữ lại sau khi reload)
-            localStorage.setItem('customAvatar', e.target.result);
-        };
-
-        reader.readAsDataURL(file); // Đọc file ảnh dưới dạng URL
-    }
-});
-
-// Kiểm tra chế độ đã lưu trong localStorage khi load trang
-$(document).ready(function() {
-    const theme = localStorage.getItem('theme') || 'light';
-
-    if (theme === 'dark') {
-        $('body').addClass('dark-mode');
-        $('#theme-toggle').bootstrapToggle('on');
-    } else {
-        $('body').addClass('light-mode');
-    }
-
-    // Xử lý sự kiện khi người dùng chuyển đổi chế độ
-    $('#theme-toggle').change(function() {
-        if ($(this).prop('checked')) {
-            $('body').removeClass('light-mode').addClass('dark-mode');
-            localStorage.setItem('theme', 'dark'); // Lưu trạng thái vào localStorage
-        } else {
-            $('body').removeClass('dark-mode').addClass('light-mode');
-            localStorage.setItem('theme', 'light'); // Lưu trạng thái vào localStorage
+            document.getElementById('user-avatar').src = e.target.result; // Cập nhật ảnh đại diện
+            document.getElementById('upload-btn').style.display = 'none'; // Ẩn nút sau khi đã upload
         }
-    });
-});
+        reader.readAsDataURL(file);
+    }
+}
