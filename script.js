@@ -66,10 +66,16 @@ window.onload = function() {
             heart.textContent = '♥';
         }
     });
+
+    // Kiểm tra xem có ảnh đại diện đã lưu trong localStorage hay không
+    const savedAvatar = localStorage.getItem('customAvatar');
+    if (savedAvatar) {
+        document.getElementById('user-avatar').src = savedAvatar;
+    }
 };
 
 
-
+// Telegram WebApp Integration
 window.Telegram.WebApp.ready(); // Đảm bảo WebApp đã sẵn sàng
 
 // Danh sách ảnh đại diện hoạt họa ngẫu nhiên
@@ -124,21 +130,6 @@ document.getElementById('avatar-upload').addEventListener('change', function(eve
         reader.readAsDataURL(file); // Đọc file ảnh dưới dạng URL
     }
 });
-
-// Kiểm tra xem có ảnh đại diện đã lưu trong localStorage hay không
-window.onload = function() {
-    const savedAvatar = localStorage.getItem('customAvatar');
-    if (savedAvatar) {
-        document.getElementById('user-avatar').src = savedAvatar;
-    }
-};
-
-
-
-
-
-
-
 
 // Kiểm tra chế độ đã lưu trong localStorage khi load trang
 $(document).ready(function() {
