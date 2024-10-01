@@ -3,17 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Make TON Transfer</title>
+    <title>TON Wallet Checker</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             text-align: center;
-            margin-top: 50px;
+            margin: 50px;
+            background-color: #f4f4f4;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        input[type="text"] {
+            width: 300px;
+            padding: 10px;
+            margin: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
         }
 
         button {
-            padding: 15px 30px;
-            font-size: 18px;
+            padding: 10px 20px;
+            font-size: 16px;
             cursor: pointer;
             background-color: #4CAF50;
             color: white;
@@ -25,54 +38,94 @@
             background-color: #45a049;
         }
 
-        .message {
-            margin-top: 20px;
-            font-size: 16px;
+        table {
+            margin: 20px auto;
+            border-collapse: collapse;
+            width: 80%;
+            background: white;
+        }
+
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
         }
     </style>
 </head>
 <body>
 
-    <h1>Make TON Transfer</h1>
-    <button id="makeTon">Make TON</button>
-    <div class="message" id="message"></div>
+    <h1>Check TON Wallet Transactions</h1>
+    <input type="text" id="walletAddress" placeholder="Nhập địa chỉ ví TON">
+    <button id="checkTransactions">Kiểm tra giao dịch</button>
+    <div id="message"></div>
+
+    <table id="transactionsTable">
+        <thead>
+            <tr>
+                <th>Ngày Giờ</th>
+                <th>Loại Giao Dịch</th>
+                <th>Ví Gửi/ Nhận</th>
+                <th>Số Lượng</th>
+                <th>Token</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
 
     <script>
-        const walletAddress = "UQDu8vyZSZbAYvRRQ_jW4_0EiBGibAGq72wSZjYWRmNAGhRD"; // Địa chỉ nhận TON
-        const amountTON = 1; // Số lượng TON cần chuyển
-        const tonViewerURL = 'https://tonviewer.com'; // URL để kiểm tra giao dịch
+        document.getElementById("checkTransactions").addEventListener("click", async function () {
+            const walletAddress = document.getElementById("walletAddress").value.trim();
+            const messageDiv = document.getElementById('message');
+            const transactionsTable = document.getElementById('transactionsTable').querySelector('tbody');
 
-        document.getElementById("makeTon").addEventListener("click", async function () {
-            // Chuyển hướng người dùng đến Tonkeeper để thực hiện giao dịch
-            const transactionUrl = `https://app.tonkeeper.com/transfer/${walletAddress}?amount=${amountTON}`;
-            window.open(transactionUrl, "_blank");
+            messageDiv.innerText = ""; // Xóa thông điệp trước đó
+            transactionsTable.innerHTML = ""; // Xóa bảng trước đó
 
-            // Đợi một vài giây để người dùng hoàn tất giao dịch
-            document.getElementById('message').innerText = "Đang kiểm tra giao dịch, vui lòng đợi...";
+            if (!walletAddress) {
+                messageDiv.innerText = "Vui lòng nhập địa chỉ ví TON.";
+                return;
+            }
 
-            // Kiểm tra giao dịch
-            setTimeout(checkTransactionStatus, 10000); // Đợi 10 giây trước khi kiểm tra
-        });
+            messageDiv.innerText = "Đang kiểm tra giao dịch...";
 
-        async function checkTransactionStatus() {
+            // API endpoint để lấy thông tin giao dịch
             const apiUrl = `https://tonviewer.com/api/getTransactions?address=${walletAddress}`;
-            
+
             try {
                 const response = await fetch(apiUrl);
                 const data = await response.json();
 
-                // Kiểm tra xem giao dịch đã hoàn thành hay chưa
-                const latestTransaction = data.transactions[0];
-                if (latestTransaction && latestTransaction.in_msg.source === walletAddress) {
-                    document.getElementById('message').innerText = "Giao dịch đã hoàn tất!";
+                if (data && data.transactions.length > 0) {
+                    data.transactions.forEach(transaction => {
+                        const date = new Date(transaction.time * 1000).toLocaleString();
+                        const amount = transaction.value / Math.pow(10, 9); // Chia cho 10^9 để chuyển sang TON
+                        const token = "TON"; // Hoặc lấy token thực tế từ giao dịch
+
+                        // Loại giao dịch
+                        const type = transaction.in_msg && transaction.in_msg.source === walletAddress ? 'Nhận' : 'Gửi';
+                        const counterpart = type === 'Nhận' ? transaction.in_msg.source : transaction.out_msgs[0].dest;
+
+                        // Tạo hàng mới trong bảng
+                        const newRow = transactionsTable.insertRow();
+                        newRow.insertCell(0).innerText = date;
+                        newRow.insertCell(1).innerText = type;
+                        newRow.insertCell(2).innerText = counterpart;
+                        newRow.insertCell(3).innerText = amount.toFixed(9);
+                        newRow.insertCell(4).innerText = token;
+                    });
+                    messageDiv.innerText = "Tìm thấy các giao dịch!";
                 } else {
-                    document.getElementById('message').innerText = "Không tìm thấy giao dịch, vui lòng thử lại.";
+                    messageDiv.innerText = "Không tìm thấy giao dịch nào.";
                 }
             } catch (error) {
-                document.getElementById('message').innerText = "Lỗi khi kiểm tra giao dịch.";
+                messageDiv.innerText = "Lỗi khi kiểm tra giao dịch.";
                 console.error("Error:", error);
             }
-        }
+        });
     </script>
 
 </body>
