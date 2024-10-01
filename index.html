@@ -3,206 +3,176 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Telegram Account Checker</title>
+    <title>Telegram Mini App</title>
     <style>
-        body {
+        body, html {
+            margin: 0;
+            padding: 0;
             font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: #f3f3f3;
         }
-        .container {
-            text-align: center;
-            background-color: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        .status {
-            margin: 10px 0;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .status .bar {
-            flex: 1;
-            height: 8px;
-            background-color: lightgray;
-            border-radius: 4px;
-            margin: 0 10px;
-            position: relative;
-            overflow: hidden;
-        }
-        .status .bar .progress {
-            position: absolute;
-            top: 0;
-            left: 0;
-            height: 100%;
-            width: 0;
-            background-color: green;
-            border-radius: 4px;
-            transition: width 1s ease;
-        }
-        .status.completed {
-            color: green;
-        }
-        .status.pending {
-            color: orange;
-        }
-        .token-container {
-            margin-top: 20px;
-        }
-        .token-container h2 {
-            color: blue;
-        }
-        .task-button {
-            padding: 5px 10px;
-            background-color: #007bff;
+
+        /* Style phần header */
+        .header {
+            background-color: #2c3e50;
             color: white;
-            border: none;
-            border-radius: 4px;
+            text-align: center;
+            padding: 20px;
+        }
+
+        /* Style thanh loading */
+        .progress-bar {
+            width: 100%;
+            background-color: #ddd;
+        }
+
+        .progress {
+            width: 1%;
+            height: 30px;
+            background-color: #4caf50;
+            text-align: center;
+            line-height: 30px;
+            color: white;
+        }
+
+        /* Style nội dung khi check hoàn thành */
+        .content {
+            padding: 20px;
+            text-align: center;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        /* Style footer */
+        .footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background-color: #2c3e50;
+            color: white;
+            display: flex;
+            justify-content: space-around;
+            padding: 10px;
+        }
+
+        .footer div {
             cursor: pointer;
         }
-        .task-button:disabled {
-            background-color: gray;
-            cursor: not-allowed;
+
+        /* Active button footer */
+        .footer .active {
+            font-weight: bold;
+            color: #f39c12;
+        }
+
+        /* Style cho các section nội dung */
+        .section {
+            display: none;
+        }
+
+        #homeSection, #taskSection, #inviteSection {
+            display: none;
+        }
+
+        .active-section {
+            display: block;
+        }
+
+        /* Style link mời */
+        .invite-container {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .invite-container a {
+            color: #2ecc71;
+            font-weight: bold;
         }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <h1>Checking your account</h1>
-    
-    <!-- Nhiệm vụ tài khoản -->
-    <div class="status pending" id="age-verified">
-        <span>Account Age Verified</span>
-        <div class="bar"><div class="progress"></div></div>
-        <span>&#9675;</span>
-    </div>
-    
-    <div class="status pending" id="activity-level">
-        <span>Activity Level Analyzed</span>
-        <div class="bar"><div class="progress"></div></div>
-        <span>&#9675;</span>
+    <div class="header">
+        <h2>Telegram Mini App</h2>
     </div>
 
-    <div class="status pending" id="premium-checked">
-        <span>Telegram Premium Checked</span>
-        <div class="bar"><div class="progress"></div></div>
-        <span>&#9675;</span>
+    <div id="checkSection" class="content">
+        <h3>Checking your account...</h3>
+        <div class="progress-bar">
+            <div class="progress" id="progressBar">1%</div>
+        </div>
     </div>
 
-    <div class="status pending" id="og-status">
-        <span>OG Status Confirmed</span>
-        <div class="bar"><div class="progress"></div></div>
-        <span>&#9675;</span>
+    <div id="homeSection" class="section">
+        <h3>Welcome to Home</h3>
+        <p>Thông tin tài khoản của bạn đã được xác thực thành công!</p>
     </div>
 
-    <!-- Nhiệm vụ Social -->
-    <h3>Social Tasks</h3>
-
-    <!-- Nhiệm vụ Follow Twitter -->
-    <div class="status pending" id="follow-twitter">
-        <span>Follow on Twitter</span>
-        <button class="task-button" id="btn-follow-twitter" onclick="startTask('follow-twitter')">Bắt đầu nhiệm vụ</button>
-        <div class="bar"><div class="progress"></div></div>
-        <span>&#9675;</span>
+    <div id="taskSection" class="section">
+        <h3>Task Section</h3>
+        <button onclick="completeTask()">Làm nhiệm vụ</button>
+        <p id="taskStatus">Trạng thái nhiệm vụ: Chưa hoàn thành</p>
     </div>
 
-    <!-- Nhiệm vụ Join Telegram -->
-    <div class="status pending" id="join-telegram">
-        <span>Join Telegram Channel</span>
-        <button class="task-button" id="btn-join-telegram" onclick="startTask('join-telegram')">Bắt đầu nhiệm vụ</button>
-        <div class="bar"><div class="progress"></div></div>
-        <span>&#9675;</span>
+    <div id="inviteSection" class="section invite-container">
+        <h3>Invite Friends</h3>
+        <p>Chia sẻ link mời bạn bè để nhận 10% token:</p>
+        <a id="invite-link" href="" target="_blank">Link mời của bạn</a>
     </div>
 
-    <!-- Nhiệm vụ Invite Friends -->
-    <div class="status pending" id="invite-friends">
-        <span>Invite Friends</span>
-        <button class="task-button" id="btn-invite-friends" onclick="startTask('invite-friends')">Bắt đầu nhiệm vụ</button>
-        <div class="bar"><div class="progress"></div></div>
-        <span>&#9675;</span>
+    <div class="footer">
+        <div id="homeBtn" class="active" onclick="showSection('home')">Home</div>
+        <div id="taskBtn" onclick="showSection('task')">Task</div>
+        <div id="inviteBtn" onclick="showSection('invite')">Invite</div>
     </div>
 
-    <div class="token-container">
-        <h2>Total Tokens Earned: <span id="token-count">0</span> BM</h2>
-    </div>
-</div>
-
-<script>
-    // Giả lập API kiểm tra trạng thái nhiệm vụ social
-    function checkTaskCompletion(taskKey) {
-        return new Promise((resolve) => {
-            setTimeout(() => {
-                // Giả lập trạng thái hoàn thành nhiệm vụ từ API
-                const completed = {
-                    'follow-twitter': true,
-                    'join-telegram': true,
-                    'invite-friends': false
-                };
-                resolve(completed[taskKey]);
-            }, 3000);  // Giả lập thời gian phản hồi API là 3 giây
-        });
-    }
-
-    const tokenCountDisplay = document.getElementById('token-count');
-    let tokenCount = 0;
-
-    const rewards = {
-        'follow-twitter': 5,
-        'join-telegram': 10,
-        'invite-friends': 20
-    };
-
-    const statusElements = {
-        'follow-twitter': document.getElementById('follow-twitter'),
-        'join-telegram': document.getElementById('join-telegram'),
-        'invite-friends': document.getElementById('invite-friends')
-    };
-
-    const progressElements = {
-        'follow-twitter': statusElements['follow-twitter'].querySelector('.progress'),
-        'join-telegram': statusElements['join-telegram'].querySelector('.progress'),
-        'invite-friends': statusElements['invite-friends'].querySelector('.progress')
-    };
-
-    const buttons = {
-        'follow-twitter': document.getElementById('btn-follow-twitter'),
-        'join-telegram': document.getElementById('btn-join-telegram'),
-        'invite-friends': document.getElementById('btn-invite-friends')
-    };
-
-    // Bắt đầu nhiệm vụ social
-    async function startTask(taskKey) {
-        buttons[taskKey].disabled = true;  // Vô hiệu hóa nút
-        buttons[taskKey].innerText = "Đang kiểm tra...";  // Hiển thị quá trình
-
-        // Giả lập thanh tiến trình chạy
-        progressElements[taskKey].style.width = '100%';
-
-        // Gọi API để kiểm tra trạng thái hoàn thành
-        const completed = await checkTaskCompletion(taskKey);
-
-        // Cập nhật trạng thái sau khi API phản hồi
-        setTimeout(() => {
-            if (completed) {
-                statusElements[taskKey].classList.remove('pending');
-                statusElements[taskKey].classList.add('completed');
-                statusElements[taskKey].querySelector('span:last-child').innerHTML = '&#10003;';
-                tokenCount += rewards[taskKey];  // Cộng thêm token
+    <script>
+        // Phần check thông tin và chuyển cảnh
+        let progress = 1;
+        let progressBar = document.getElementById('progressBar');
+        
+        function updateProgress() {
+            if (progress >= 100) {
+                clearInterval(progressInterval);
+                // Khi hoàn thành sẽ chuyển cảnh sang mục Home
+                document.getElementById('checkSection').classList.add('hidden');
+                document.getElementById('homeSection').classList.add('active-section');
             } else {
-                buttons[taskKey].disabled = false;  // Kích hoạt lại nút nếu chưa hoàn thành
-                buttons[taskKey].innerText = "Bắt đầu nhiệm vụ";
-                progressElements[taskKey].style.width = '0';  // Reset thanh tiến trình
+                progress += 1;
+                progressBar.style.width = progress + '%';
+                progressBar.innerText = progress + '%';
             }
-            tokenCountDisplay.innerText = tokenCount;  // Cập nhật tổng token
-        }, 1000);
-    }
-</script>
+        }
 
+        let progressInterval = setInterval(updateProgress, 100);
+
+        // Chuyển section khi nhấn footer
+        function showSection(section) {
+            document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active-section'));
+            document.getElementById(section + 'Section').classList.add('active-section');
+
+            document.querySelectorAll('.footer div').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(section + 'Btn').classList.add('active');
+        }
+
+        // Phần nhiệm vụ
+        let taskCompleted = false;
+
+        function completeTask() {
+            taskCompleted = true;
+            document.getElementById('taskStatus').innerText = 'Trạng thái nhiệm vụ: Đã hoàn thành!';
+        }
+
+        // Tạo link mời riêng
+        function generateInviteLink(username) {
+            const inviteLink = `https://yourwebsite.com/invite?ref=${username}`;
+            document.getElementById('invite-link').innerText = inviteLink;
+            document.getElementById('invite-link').setAttribute('href', inviteLink);
+        }
+
+        // Giả sử tên người dùng là 'user123'
+        generateInviteLink('user123');
+    </script>
 </body>
 </html>
