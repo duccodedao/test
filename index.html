@@ -42,6 +42,12 @@
         .status.pending {
             color: orange;
         }
+        .token-container {
+            margin-top: 20px;
+        }
+        .token-container h2 {
+            color: blue;
+        }
     </style>
 </head>
 <body>
@@ -49,6 +55,7 @@
 <div class="container">
     <h1>Checking your account</h1>
     
+    <!-- Nhiệm vụ tài khoản -->
     <div class="status completed">
         <span>Account Age Verified</span>
         <div class="bar fill"></div>
@@ -72,33 +79,71 @@
         <div class="bar"></div>
         <span>&#9675;</span>
     </div>
+
+    <!-- Nhiệm vụ Social -->
+    <h3>Social Tasks</h3>
+    
+    <div class="status pending">
+        <span>Follow on Twitter</span>
+        <div class="bar"></div>
+        <span>&#9675;</span>
+    </div>
+
+    <div class="status pending">
+        <span>Join Telegram Channel</span>
+        <div class="bar"></div>
+        <span>&#9675;</span>
+    </div>
+
+    <div class="status pending">
+        <span>Invite Friends</span>
+        <div class="bar"></div>
+        <span>&#9675;</span>
+    </div>
+
+    <div class="token-container">
+        <h2>Total Tokens Earned: <span id="token-count">0</span> BM</h2>
+    </div>
 </div>
 
 <script>
-    // Hàm giả lập kiểm tra chỉ số tài khoản từ API
+    // Hàm giả lập kiểm tra chỉ số tài khoản và nhiệm vụ Social từ API
     function checkTelegramAccount(userId) {
-        // Thay bằng lệnh gọi API thật, ví dụ sử dụng fetch
         return {
             ageVerified: true,
             activityLevelAnalyzed: true,
             premiumChecked: false,
-            ogStatusConfirmed: false
+            ogStatusConfirmed: false,
+            followTwitter: true,    // Giả lập người dùng đã theo dõi Twitter
+            joinTelegram: true,     // Giả lập người dùng đã tham gia kênh Telegram
+            inviteFriends: false    // Giả lập chưa mời bạn bè
         };
     }
 
     const userId = 'user-telegram-id';  // ID người dùng Telegram
     const accountStatus = checkTelegramAccount(userId);
 
-    // Cập nhật giao diện dựa trên kết quả API
+    let tokenCount = 0;
+    
+    // Cập nhật giao diện và tính toán token dựa trên kết quả API
     document.querySelectorAll('.status').forEach((status, index) => {
-        let keys = ['ageVerified', 'activityLevelAnalyzed', 'premiumChecked', 'ogStatusConfirmed'];
+        let keys = [
+            'ageVerified', 'activityLevelAnalyzed', 'premiumChecked', 'ogStatusConfirmed',
+            'followTwitter', 'joinTelegram', 'inviteFriends'
+        ];
+        let rewards = [10, 20, 15, 30, 5, 10, 20]; // Token thưởng cho mỗi mục, gồm cả nhiệm vụ Social
+
         if (accountStatus[keys[index]]) {
             status.classList.remove('pending');
             status.classList.add('completed');
             status.querySelector('.bar').classList.add('fill');
             status.querySelector('span:last-child').innerHTML = '&#10003;';
+            tokenCount += rewards[index];  // Tính toán tổng token
         }
     });
+
+    // Hiển thị tổng số token đã thưởng
+    document.getElementById('token-count').innerText = tokenCount;
 </script>
 
 </body>
