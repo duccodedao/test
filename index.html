@@ -1,28 +1,105 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kết Nối Ví TON</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Telegram Account Checker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f3f3f3;
+        }
+        .container {
+            text-align: center;
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .status {
+            margin: 10px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .status .bar {
+            flex: 1;
+            height: 8px;
+            background-color: lightgray;
+            border-radius: 4px;
+            margin: 0 10px;
+        }
+        .status .bar.fill {
+            background-color: green;
+        }
+        .status.completed {
+            color: green;
+        }
+        .status.pending {
+            color: orange;
+        }
+    </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Kết Nối Ví TON</h1>
-        <button id="connect-btn">Kết Nối Ví</button>
-        
-        <!-- Hiển thị số dư sau khi kết nối -->
-        <div id="wallet-info" class="hidden">
-            <p><strong>Địa chỉ ví:</strong> <span id="wallet-address"></span></p>
-            <p><strong>Số dư TON:</strong> <span id="wallet-balance"></span></p>
-            <button id="disconnect-btn">Hủy Kết Nối</button>
-        </div>
 
-        <!-- Modal hiển thị khi nhấn Connect -->
-        
+<div class="container">
+    <h1>Checking your account</h1>
+    
+    <div class="status completed">
+        <span>Account Age Verified</span>
+        <div class="bar fill"></div>
+        <span>&#10003;</span>
+    </div>
+    
+    <div class="status completed">
+        <span>Activity Level Analyzed</span>
+        <div class="bar fill"></div>
+        <span>&#10003;</span>
     </div>
 
-    <script src="https://unpkg.com/@tonconnect/sdk@2.0.0"></script>
-    <script src="script.js"></script>
+    <div class="status pending">
+        <span>Telegram Premium Checked</span>
+        <div class="bar"></div>
+        <span>&#9675;</span>
+    </div>
+
+    <div class="status pending">
+        <span>OG Status Confirmed</span>
+        <div class="bar"></div>
+        <span>&#9675;</span>
+    </div>
+</div>
+
+<script>
+    // Hàm giả lập kiểm tra chỉ số tài khoản từ API
+    function checkTelegramAccount(userId) {
+        // Thay bằng lệnh gọi API thật, ví dụ sử dụng fetch
+        return {
+            ageVerified: true,
+            activityLevelAnalyzed: true,
+            premiumChecked: false,
+            ogStatusConfirmed: false
+        };
+    }
+
+    const userId = 'user-telegram-id';  // ID người dùng Telegram
+    const accountStatus = checkTelegramAccount(userId);
+
+    // Cập nhật giao diện dựa trên kết quả API
+    document.querySelectorAll('.status').forEach((status, index) => {
+        let keys = ['ageVerified', 'activityLevelAnalyzed', 'premiumChecked', 'ogStatusConfirmed'];
+        if (accountStatus[keys[index]]) {
+            status.classList.remove('pending');
+            status.classList.add('completed');
+            status.querySelector('.bar').classList.add('fill');
+            status.querySelector('span:last-child').innerHTML = '&#10003;';
+        }
+    });
+</script>
+
 </body>
 </html>
