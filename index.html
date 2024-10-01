@@ -32,9 +32,18 @@
             background-color: lightgray;
             border-radius: 4px;
             margin: 0 10px;
+            position: relative;
+            overflow: hidden;
         }
-        .status .bar.fill {
+        .status .bar .progress {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 0;
             background-color: green;
+            border-radius: 4px;
+            transition: width 1s ease;
         }
         .status.completed {
             color: green;
@@ -48,6 +57,18 @@
         .token-container h2 {
             color: blue;
         }
+        .task-button {
+            padding: 5px 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .task-button:disabled {
+            background-color: gray;
+            cursor: not-allowed;
+        }
     </style>
 </head>
 <body>
@@ -56,48 +77,54 @@
     <h1>Checking your account</h1>
     
     <!-- Nhiệm vụ tài khoản -->
-    <div class="status completed">
+    <div class="status pending" id="age-verified">
         <span>Account Age Verified</span>
-        <div class="bar fill"></div>
-        <span>&#10003;</span>
+        <div class="bar"><div class="progress"></div></div>
+        <span>&#9675;</span>
     </div>
     
-    <div class="status completed">
+    <div class="status pending" id="activity-level">
         <span>Activity Level Analyzed</span>
-        <div class="bar fill"></div>
-        <span>&#10003;</span>
-    </div>
-
-    <div class="status pending">
-        <span>Telegram Premium Checked</span>
-        <div class="bar"></div>
+        <div class="bar"><div class="progress"></div></div>
         <span>&#9675;</span>
     </div>
 
-    <div class="status pending">
+    <div class="status pending" id="premium-checked">
+        <span>Telegram Premium Checked</span>
+        <div class="bar"><div class="progress"></div></div>
+        <span>&#9675;</span>
+    </div>
+
+    <div class="status pending" id="og-status">
         <span>OG Status Confirmed</span>
-        <div class="bar"></div>
+        <div class="bar"><div class="progress"></div></div>
         <span>&#9675;</span>
     </div>
 
     <!-- Nhiệm vụ Social -->
     <h3>Social Tasks</h3>
-    
-    <div class="status pending">
+
+    <!-- Nhiệm vụ Follow Twitter -->
+    <div class="status pending" id="follow-twitter">
         <span>Follow on Twitter</span>
-        <div class="bar"></div>
+        <button class="task-button" id="btn-follow-twitter" onclick="startTask('follow-twitter')">Bắt đầu nhiệm vụ</button>
+        <div class="bar"><div class="progress"></div></div>
         <span>&#9675;</span>
     </div>
 
-    <div class="status pending">
+    <!-- Nhiệm vụ Join Telegram -->
+    <div class="status pending" id="join-telegram">
         <span>Join Telegram Channel</span>
-        <div class="bar"></div>
+        <button class="task-button" id="btn-join-telegram" onclick="startTask('join-telegram')">Bắt đầu nhiệm vụ</button>
+        <div class="bar"><div class="progress"></div></div>
         <span>&#9675;</span>
     </div>
 
-    <div class="status pending">
+    <!-- Nhiệm vụ Invite Friends -->
+    <div class="status pending" id="invite-friends">
         <span>Invite Friends</span>
-        <div class="bar"></div>
+        <button class="task-button" id="btn-invite-friends" onclick="startTask('invite-friends')">Bắt đầu nhiệm vụ</button>
+        <div class="bar"><div class="progress"></div></div>
         <span>&#9675;</span>
     </div>
 
@@ -107,43 +134,74 @@
 </div>
 
 <script>
-    // Hàm giả lập kiểm tra chỉ số tài khoản và nhiệm vụ Social từ API
-    function checkTelegramAccount(userId) {
-        return {
-            ageVerified: true,
-            activityLevelAnalyzed: true,
-            premiumChecked: false,
-            ogStatusConfirmed: false,
-            followTwitter: true,    // Giả lập người dùng đã theo dõi Twitter
-            joinTelegram: true,     // Giả lập người dùng đã tham gia kênh Telegram
-            inviteFriends: false    // Giả lập chưa mời bạn bè
-        };
+    // Giả lập API kiểm tra trạng thái nhiệm vụ social
+    function checkTaskCompletion(taskKey) {
+        return new Promise((resolve) => {
+            setTimeout(() => {
+                // Giả lập trạng thái hoàn thành nhiệm vụ từ API
+                const completed = {
+                    'follow-twitter': true,
+                    'join-telegram': true,
+                    'invite-friends': false
+                };
+                resolve(completed[taskKey]);
+            }, 3000);  // Giả lập thời gian phản hồi API là 3 giây
+        });
     }
 
-    const userId = 'user-telegram-id';  // ID người dùng Telegram
-    const accountStatus = checkTelegramAccount(userId);
-
+    const tokenCountDisplay = document.getElementById('token-count');
     let tokenCount = 0;
-    
-    // Cập nhật giao diện và tính toán token dựa trên kết quả API
-    document.querySelectorAll('.status').forEach((status, index) => {
-        let keys = [
-            'ageVerified', 'activityLevelAnalyzed', 'premiumChecked', 'ogStatusConfirmed',
-            'followTwitter', 'joinTelegram', 'inviteFriends'
-        ];
-        let rewards = [10, 20, 15, 30, 5, 10, 20]; // Token thưởng cho mỗi mục, gồm cả nhiệm vụ Social
 
-        if (accountStatus[keys[index]]) {
-            status.classList.remove('pending');
-            status.classList.add('completed');
-            status.querySelector('.bar').classList.add('fill');
-            status.querySelector('span:last-child').innerHTML = '&#10003;';
-            tokenCount += rewards[index];  // Tính toán tổng token
-        }
-    });
+    const rewards = {
+        'follow-twitter': 5,
+        'join-telegram': 10,
+        'invite-friends': 20
+    };
 
-    // Hiển thị tổng số token đã thưởng
-    document.getElementById('token-count').innerText = tokenCount;
+    const statusElements = {
+        'follow-twitter': document.getElementById('follow-twitter'),
+        'join-telegram': document.getElementById('join-telegram'),
+        'invite-friends': document.getElementById('invite-friends')
+    };
+
+    const progressElements = {
+        'follow-twitter': statusElements['follow-twitter'].querySelector('.progress'),
+        'join-telegram': statusElements['join-telegram'].querySelector('.progress'),
+        'invite-friends': statusElements['invite-friends'].querySelector('.progress')
+    };
+
+    const buttons = {
+        'follow-twitter': document.getElementById('btn-follow-twitter'),
+        'join-telegram': document.getElementById('btn-join-telegram'),
+        'invite-friends': document.getElementById('btn-invite-friends')
+    };
+
+    // Bắt đầu nhiệm vụ social
+    async function startTask(taskKey) {
+        buttons[taskKey].disabled = true;  // Vô hiệu hóa nút
+        buttons[taskKey].innerText = "Đang kiểm tra...";  // Hiển thị quá trình
+
+        // Giả lập thanh tiến trình chạy
+        progressElements[taskKey].style.width = '100%';
+
+        // Gọi API để kiểm tra trạng thái hoàn thành
+        const completed = await checkTaskCompletion(taskKey);
+
+        // Cập nhật trạng thái sau khi API phản hồi
+        setTimeout(() => {
+            if (completed) {
+                statusElements[taskKey].classList.remove('pending');
+                statusElements[taskKey].classList.add('completed');
+                statusElements[taskKey].querySelector('span:last-child').innerHTML = '&#10003;';
+                tokenCount += rewards[taskKey];  // Cộng thêm token
+            } else {
+                buttons[taskKey].disabled = false;  // Kích hoạt lại nút nếu chưa hoàn thành
+                buttons[taskKey].innerText = "Bắt đầu nhiệm vụ";
+                progressElements[taskKey].style.width = '0';  // Reset thanh tiến trình
+            }
+            tokenCountDisplay.innerText = tokenCount;  // Cập nhật tổng token
+        }, 1000);
+    }
 </script>
 
 </body>
