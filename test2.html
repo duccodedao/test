@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chuyển đến TON Keeper</title>
+    <title>TON Connect và Chuyển tiền</title>
     <style>
         body {
             display: flex;
@@ -37,13 +37,33 @@
 </head>
 <body>
     <div class="button-container">
-        <button onclick="redirect()">Chuyển đến TON Keeper</button>
+        <button id="connect-btn">Kết nối ví TON</button>
+        <button id="send-btn" style="display:none;">Chuyển đến TON Keeper</button>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/@tonconnect/sdk@latest"></script>
     <script>
-        function redirect() {
-            window.location.href = 'https://app.tonkeeper.com/transfer/UQDu8vyZSZbAYvRRQ_jW4_0EiBGibAGq72wSZjYWRmNAGhRD?&text=donate';
-        }
+        const tonConnect = new TonConnect();
+        const connectButton = document.getElementById('connect-btn');
+        const sendButton = document.getElementById('send-btn');
+
+        // Hàm kết nối ví TON
+        connectButton.addEventListener('click', async () => {
+            try {
+                await tonConnect.connectWallet();
+                alert('Kết nối ví thành công!');
+                connectButton.style.display = 'none';
+                sendButton.style.display = 'inline-block';
+            } catch (error) {
+                alert('Kết nối thất bại. Vui lòng thử lại.');
+            }
+        });
+
+        // Hàm chuyển tiền sau khi kết nối
+        sendButton.addEventListener('click', () => {
+            const transferUrl = 'https://app.tonkeeper.com/transfer/UQDu8vyZSZbAYvRRQ_jW4_0EiBGibAGq72wSZjYWRmNAGhRD?&text=donate';
+            window.location.href = transferUrl;
+        });
     </script>
 </body>
 </html>
