@@ -1,174 +1,81 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trade Future Game</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <title>Loading Page</title>
     <style>
-        body {
-            font-family: 'Roboto', sans-serif;
-            background: linear-gradient(135deg, #e2e2e2, #ffffff);
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            height: 100%;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            margin: 0;
-            color: #333;
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
         }
-        #gameContainer {
-            background-color: #fff;
-            border-radius: 15px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-            padding: 30px;
+
+        .loading-container {
             text-align: center;
-            width: 320px;
         }
-        h2 {
+
+        .logo {
+            width: 150px;
             margin-bottom: 20px;
-            font-size: 24px;
-            color: #4CAF50;
         }
-        #btcPrice {
+
+        .loading-bar {
+            width: 300px;
+            height: 20px;
+            background-color: #ddd;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 0 auto;
+            margin-bottom: 10px;
+        }
+
+        .loading-progress {
+            height: 100%;
+            width: 0%;
+            background-color: #4caf50;
+            transition: width 0.2s;
+        }
+
+        p {
             font-size: 18px;
-            margin-bottom: 20px;
             color: #555;
-        }
-        select, input[type="range"] {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            margin: 10px 0;
-            font-size: 16px;
-        }
-        .btn {
-            background-color: #4CAF50;
-            color: white;
-            padding: 12px 20px;
-            margin: 10px 0;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-            transition: background 0.3s;
-            width: 100%;
-        }
-        .btn:hover {
-            background-color: #45a049;
-        }
-        #result {
-            margin-top: 20px;
-            font-weight: bold;
-            font-size: 20px;
-        }
-        #balance {
-            margin-top: 10px;
-            font-size: 18px;
-            color: #777;
-        }
-        #amountSlider {
-            appearance: none;
-            width: 100%;
-            height: 8px;
-            background: #ddd;
-            border-radius: 5px;
-            outline: none;
-        }
-        #amountSlider::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            appearance: none;
-            width: 20px;
-            height: 20px;
-            background: #4CAF50;
-            border-radius: 50%;
-            cursor: pointer;
-        }
-        #amountSlider::-moz-range-thumb {
-            width: 20px;
-            height: 20px;
-            background: #4CAF50;
-            border-radius: 50%;
-            cursor: pointer;
         }
     </style>
 </head>
 <body>
-    <div id="gameContainer">
-        <h2>Trade Future Game</h2>
-        <div>
-            <span id="btcPrice">Giá BTC: Đang tải...</span>
+    <div class="loading-container">
+        <img src="https://via.placeholder.com/150" alt="Logo" class="logo">
+        <div class="loading-bar">
+            <div class="loading-progress"></div>
         </div>
-        <div>
-            <label for="orderType">Chọn lệnh:</label>
-            <select id="orderType">
-                <option value="long">Long</option>
-                <option value="short">Short</option>
-            </select>
-        </div>
-        <div>
-            <label for="amountSlider">Số lượng (% BTC hoặc % USDT):</label>
-            <input type="range" id="amountSlider" min="1" max="100" value="50">
-            <span id="sliderValue">50%</span>
-        </div>
-        <button class="btn" id="placeOrder">Đặt lệnh</button>
-        <div id="result"></div>
-        <div id="balance">Số dư: <span id="userBalance">0 USDT</span></div>
+        <p>Loading...</p>
     </div>
 
     <script>
-        const orderTypeSelect = document.getElementById("orderType");
-        const amountSlider = document.getElementById("amountSlider");
-        const sliderValue = document.getElementById("sliderValue");
-        const resultDiv = document.getElementById("result");
-        const userBalanceDiv = document.getElementById("userBalance");
-        const btcPriceDiv = document.getElementById("btcPrice");
-        
-        let userBalance = parseFloat(localStorage.getItem("userBalance")) || 0;
+        // Tốc độ tải phụ thuộc vào tốc độ mạng
+        let loadTime = navigator.connection ? navigator.connection.downlink * 1000 : 3000;
+        let progress = document.querySelector('.loading-progress');
 
-        // Lấy giá BTC từ CoinGecko
-        async function fetchBTCPrice() {
-            const response = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd');
-            const data = await response.json();
-            const price = data.bitcoin.usd;
-            btcPriceDiv.textContent = `Giá BTC: $${price}`;
-            return price;
-        }
-
-        // Cập nhật giá BTC và số dư
-        fetchBTCPrice();
-        userBalanceDiv.textContent = `${userBalance} USDT`;
-
-        // Cập nhật giá trị thanh trượt
-        amountSlider.oninput = function() {
-            sliderValue.textContent = `${this.value}%`;
-        }
-
-        // Đặt lệnh
-        document.getElementById("placeOrder").onclick = async function() {
-            const btcPrice = await fetchBTCPrice();
-            const orderType = orderTypeSelect.value;
-            const amountPercent = parseInt(amountSlider.value);
-            const orderAmount = (amountPercent / 100) * userBalance; // Tính số lượng theo % USDT
-
-            if (orderAmount <= 0) {
-                alert("Số lượng không hợp lệ!");
-                return;
+        let width = 0;
+        let interval = setInterval(() => {
+            if (width >= 100) {
+                clearInterval(interval);
+                window.location.href = "https://chatgpt.com";
+            } else {
+                width += 5;
+                progress.style.width = width + "%";
             }
-
-            // Hiển thị kết quả sau 10 giây
-            setTimeout(() => {
-                const result = Math.random() < 0.5 ? 'Thắng!' : 'Thua!';
-                if (result === 'Thắng!') {
-                    userBalance += orderAmount; // Tăng số dư nếu thắng
-                } else {
-                    userBalance -= orderAmount; // Giảm số dư nếu thua
-                }
-                localStorage.setItem("userBalance", userBalance);
-                userBalanceDiv.textContent = `${userBalance} USDT`;
-                resultDiv.textContent = `Kết quả: ${result}`;
-            }, 10000);
-        }
+        }, loadTime / 20); // Tăng tốc độ theo thời gian tải
     </script>
 </body>
 </html>
