@@ -3,67 +3,112 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TON Connect và Chuyển tiền</title>
+    <title>Kiểm tra đăng ký OKX</title>
     <style>
         body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            margin: 0;
-            background-color: #f0f0f0;
-            font-family: Arial, sans-serif;
         }
 
-        .button-container {
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
             text-align: center;
         }
 
+        h2 {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            text-align: left;
+            margin-bottom: 5px;
+        }
+
+        input[type="text"], input[type="email"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
         button {
-            padding: 15px 30px;
-            font-size: 18px;
+            background-color: #4CAF50;
             color: white;
-            background-color: #007bff;
+            padding: 10px;
             border: none;
-            border-radius: 5px;
+            border-radius: 4px;
             cursor: pointer;
-            transition: background-color 0.3s ease;
+            width: 100%;
         }
 
         button:hover {
-            background-color: #0056b3;
+            background-color: #45a049;
+        }
+
+        #result {
+            margin-top: 20px;
+            font-weight: bold;
         }
     </style>
 </head>
 <body>
-    <div class="button-container">
-        <button id="connect-btn">Kết nối ví TON</button>
-        <button id="send-btn" style="display:none;">Chuyển đến TON Keeper</button>
+    <div class="container">
+        <h2>Kiểm tra đăng ký dưới link giới thiệu OKX</h2>
+        <form id="okxForm">
+            <label for="uid">UID OKX:</label>
+            <input type="text" id="uid" name="uid" placeholder="Nhập UID OKX" required>
+            
+            <label for="gmail">Gmail tài khoản OKX:</label>
+            <input type="email" id="gmail" name="gmail" placeholder="Nhập Gmail" required>
+            
+            <button type="submit">Kiểm tra</button>
+        </form>
+        <p id="result"></p>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/@tonconnect/sdk@latest"></script>
     <script>
-        const tonConnect = new TonConnect();
-        const connectButton = document.getElementById('connect-btn');
-        const sendButton = document.getElementById('send-btn');
+        document.getElementById("okxForm").addEventListener("submit", function(event) {
+            event.preventDefault();
 
-        // Hàm kết nối ví TON
-        connectButton.addEventListener('click', async () => {
-            try {
-                await tonConnect.connectWallet();
-                alert('Kết nối ví thành công!');
-                connectButton.style.display = 'none';
-                sendButton.style.display = 'inline-block';
-            } catch (error) {
-                alert('Kết nối thất bại. Vui lòng thử lại.');
+            // Lấy giá trị từ form
+            var uid = document.getElementById("uid").value;
+            var gmail = document.getElementById("gmail").value;
+
+            // Kiểm tra dữ liệu với người giới thiệu
+            var isRegistered = checkRegistration(uid, gmail);
+
+            // Hiển thị kết quả
+            var result = document.getElementById("result");
+            if (isRegistered) {
+                result.textContent = "Tài khoản đã đăng ký dưới link giới thiệu.";
+                result.style.color = "green";
+            } else {
+                result.textContent = "Tài khoản chưa đăng ký dưới link giới thiệu.";
+                result.style.color = "red";
             }
         });
 
-        // Hàm chuyển tiền sau khi kết nối
-        sendButton.addEventListener('click', () => {
-            const transferUrl = 'https://app.tonkeeper.com/transfer/UQDu8vyZSZbAYvRRQ_jW4_0EiBGibAGq72wSZjYWRmNAGhRD?&text=donate';
-            window.location.href = transferUrl;
-        });
+        // Hàm kiểm tra đăng ký dưới người giới thiệu
+        function checkRegistration(uid, gmail) {
+            // Thông tin người giới thiệu
+            var referrerUID = "568412647771910263";
+            var referrerGmail = "sonlyhongduc@gmail.com";
+            
+            // Kiểm tra nếu UID và Gmail khớp với người giới thiệu
+            return (uid === referrerUID && gmail === referrerGmail);
+        }
     </script>
 </body>
 </html>
