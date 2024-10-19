@@ -3,120 +3,161 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OKX Coin List</title>
+    <title>Roadmap Hiện Đại</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
             margin: 0;
-            padding: 20px;
+            padding: 0;
+            background-color: #f4f4f9;
         }
 
-        h1 {
+        .roadmap {
+            width: 80%;
+            margin: 50px auto;
             text-align: center;
         }
 
-        #coin-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            padding: 20px;
+        .title {
+            font-size: 36px;
+            margin-bottom: 50px;
+            color: #333;
+            text-transform: uppercase;
         }
 
-        .coin-card {
-            background-color: #fff;
-            border: 1px solid #ddd;
+        .timeline {
+            position: relative;
+            padding: 0;
+            margin: 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: #6c63ff;
+            transform: translateX(-50%);
+        }
+
+        .timeline-item {
+            position: relative;
+            width: 50%;
+            padding: 20px 40px;
+            box-sizing: border-box;
+        }
+
+        .timeline-item:nth-child(odd) {
+            left: 0;
+        }
+
+        .timeline-item:nth-child(even) {
+            left: 50%;
+        }
+
+        .timeline-content {
+            background: #fff;
             padding: 20px;
             border-radius: 10px;
-            text-align: center;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            position: relative;
         }
 
-        .coin-card img {
-            width: 60px;
-            height: 60px;
-            margin-bottom: 10px;
+        .timeline-content h2 {
+            margin: 0;
+            font-size: 24px;
+            color: #333;
         }
 
-        .coin-card h2 {
-            font-size: 18px;
-            margin: 10px 0;
+        .timeline-content p {
+            color: #666;
         }
 
-        .coin-card p {
-            font-size: 16px;
-            margin: 5px 0;
+        .timeline-item:nth-child(odd) .timeline-content {
+            margin-right: auto;
+            margin-left: 0;
         }
 
-        .buy-btn {
-            display: inline-block;
-            padding: 10px 15px;
-            background-color: #ff6600;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            text-decoration: none;
-            font-size: 16px;
+        .timeline-item:nth-child(even) .timeline-content {
+            margin-left: auto;
+            margin-right: 0;
         }
 
-        .buy-btn:hover {
-            background-color: #e55d00;
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 20px;
+            height: 20px;
+            background: #6c63ff;
+            border-radius: 50%;
+        }
+
+        .timeline-item:nth-child(odd)::before {
+            right: -10px;
+        }
+
+        .timeline-item:nth-child(even)::before {
+            left: -10px;
+        }
+
+        @media (max-width: 768px) {
+            .timeline-item {
+                width: 100%;
+                left: 0 !important;
+            }
+
+            .timeline-item::before {
+                left: 50%;
+            }
+
+            .timeline-item:nth-child(odd) .timeline-content,
+            .timeline-item:nth-child(even) .timeline-content {
+                margin-left: 0;
+                margin-right: 0;
+            }
         }
     </style>
 </head>
 <body>
-
-    <h1>Danh sách coin trên OKX</h1>
-    <div id="coin-list"></div>
-
-    <script>
-        // Lấy dữ liệu từ API OKX
-        async function getCoins() {
-            try {
-                const response = await fetch('https://www.okx.com/api/v5/market/tickers?instType=SPOT');
-                const data = await response.json();
-                const coins = data.data;
-
-                const coinList = document.getElementById('coin-list');
-
-                coins.forEach(coin => {
-                    // Tạo thẻ cho từng đồng coin
-                    const coinCard = document.createElement('div');
-                    coinCard.className = 'coin-card';
-
-                    // Hình ảnh coin (giả định vì API không cung cấp hình ảnh)
-                    const img = document.createElement('img');
-                    img.src = `https://cryptoicons.org/api/icon/${coin.instId.split('-')[0].toLowerCase()}/200`;
-                    img.alt = coin.instId.split('-')[0];
-                    coinCard.appendChild(img);
-
-                    // Tên coin
-                    const coinName = document.createElement('h2');
-                    coinName.textContent = coin.instId;
-                    coinCard.appendChild(coinName);
-
-                    // Giá coin
-                    const coinPrice = document.createElement('p');
-                    coinPrice.textContent = `Giá: ${parseFloat(coin.last).toFixed(2)} USDT`;
-                    coinCard.appendChild(coinPrice);
-
-                    // Nút mua
-                    const buyBtn = document.createElement('a');
-                    buyBtn.href = 'https://okx.com/join/94425783';
-                    buyBtn.textContent = 'Mua';
-                    buyBtn.className = 'buy-btn';
-                    coinCard.appendChild(buyBtn);
-
-                    // Thêm card vào danh sách
-                    coinList.appendChild(coinCard);
-                });
-            } catch (error) {
-                console.error('Lỗi khi lấy dữ liệu từ API OKX:', error);
-            }
-        }
-
-        // Gọi hàm để lấy dữ liệu khi tải trang
-        getCoins();
-    </script>
+    <section class="roadmap">
+        <h1 class="title">Roadmap Phát Triển</h1>
+        <div class="timeline">
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <h2>Giai đoạn 1</h2>
+                    <p>Bắt đầu dự án và nghiên cứu thị trường.</p>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <h2>Giai đoạn 2</h2>
+                    <p>Phát triển sản phẩm MVP và thử nghiệm ban đầu.</p>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <h2>Giai đoạn 3</h2>
+                    <p>Mở rộng sản phẩm và tiếp cận thị trường quốc tế.</p>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <h2>Giai đoạn 4</h2>
+                    <p>Hoàn thiện và tối ưu hoá trải nghiệm người dùng.</p>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <h2>Giai đoạn 5</h2>
+                    <p>Mở rộng thị phần và phát triển lâu dài.</p>
+                </div>
+            </div>
+        </div>
+    </section>
 </body>
 </html>
