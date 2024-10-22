@@ -3,161 +3,115 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roadmap Hiện Đại</title>
+    <title>Mật khẩu hoặc Vân tay</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f9;
-        }
-
-        .roadmap {
-            width: 80%;
-            margin: 50px auto;
-            text-align: center;
-        }
-
-        .title {
-            font-size: 36px;
-            margin-bottom: 50px;
-            color: #333;
-            text-transform: uppercase;
-        }
-
-        .timeline {
-            position: relative;
-            padding: 0;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
             margin: 0;
         }
-
-        .timeline::before {
-            content: '';
-            position: absolute;
-            left: 50%;
-            top: 0;
-            bottom: 0;
-            width: 4px;
-            background: #6c63ff;
-            transform: translateX(-50%);
-        }
-
-        .timeline-item {
-            position: relative;
-            width: 50%;
-            padding: 20px 40px;
-            box-sizing: border-box;
-        }
-
-        .timeline-item:nth-child(odd) {
-            left: 0;
-        }
-
-        .timeline-item:nth-child(even) {
-            left: 50%;
-        }
-
-        .timeline-content {
-            background: #fff;
+        .container {
+            background-color: #fff;
             padding: 20px;
             border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            position: relative;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 300px;
         }
-
-        .timeline-content h2 {
-            margin: 0;
-            font-size: 24px;
-            color: #333;
+        h2 {
+            margin-bottom: 20px;
         }
-
-        .timeline-content p {
-            color: #666;
+        input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
         }
-
-        .timeline-item:nth-child(odd) .timeline-content {
-            margin-right: auto;
-            margin-left: 0;
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
         }
-
-        .timeline-item:nth-child(even) .timeline-content {
-            margin-left: auto;
-            margin-right: 0;
+        button:hover {
+            background-color: #45a049;
         }
-
-        .timeline-item::before {
-            content: '';
-            position: absolute;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 20px;
-            height: 20px;
-            background: #6c63ff;
-            border-radius: 50%;
-        }
-
-        .timeline-item:nth-child(odd)::before {
-            right: -10px;
-        }
-
-        .timeline-item:nth-child(even)::before {
-            left: -10px;
-        }
-
-        @media (max-width: 768px) {
-            .timeline-item {
-                width: 100%;
-                left: 0 !important;
-            }
-
-            .timeline-item::before {
-                left: 50%;
-            }
-
-            .timeline-item:nth-child(odd) .timeline-content,
-            .timeline-item:nth-child(even) .timeline-content {
-                margin-left: 0;
-                margin-right: 0;
-            }
+        .fingerprint {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #007bff;
+            cursor: pointer;
         }
     </style>
 </head>
 <body>
-    <section class="roadmap">
-        <h1 class="title">Roadmap Phát Triển</h1>
-        <div class="timeline">
-            <div class="timeline-item">
-                <div class="timeline-content">
-                    <h2>Giai đoạn 1</h2>
-                    <p>Bắt đầu dự án và nghiên cứu thị trường.</p>
-                </div>
-            </div>
-            <div class="timeline-item">
-                <div class="timeline-content">
-                    <h2>Giai đoạn 2</h2>
-                    <p>Phát triển sản phẩm MVP và thử nghiệm ban đầu.</p>
-                </div>
-            </div>
-            <div class="timeline-item">
-                <div class="timeline-content">
-                    <h2>Giai đoạn 3</h2>
-                    <p>Mở rộng sản phẩm và tiếp cận thị trường quốc tế.</p>
-                </div>
-            </div>
-            <div class="timeline-item">
-                <div class="timeline-content">
-                    <h2>Giai đoạn 4</h2>
-                    <p>Hoàn thiện và tối ưu hoá trải nghiệm người dùng.</p>
-                </div>
-            </div>
-            <div class="timeline-item">
-                <div class="timeline-content">
-                    <h2>Giai đoạn 5</h2>
-                    <p>Mở rộng thị phần và phát triển lâu dài.</p>
-                </div>
-            </div>
-        </div>
-    </section>
+
+    <div class="container">
+        <h2>Mở khóa bằng mật khẩu hoặc vân tay</h2>
+        <input type="password" id="password" placeholder="Nhập 4 ký tự số" maxlength="4">
+        <button onclick="unlock()">Mở khóa</button>
+        <div class="fingerprint" onclick="unlockWithFingerprint()">Sử dụng vân tay</div>
+    </div>
+
+    <script>
+        // Kiểm tra nếu mật khẩu đã lưu trong localStorage
+        document.addEventListener("DOMContentLoaded", function() {
+            if (localStorage.getItem("password")) {
+                document.getElementById("password").placeholder = "Nhập mật khẩu đã lưu";
+            }
+        });
+
+        // Hàm để mở khóa bằng mật khẩu
+        function unlock() {
+            const passwordInput = document.getElementById("password").value;
+
+            if (passwordInput.length === 4 && !isNaN(passwordInput)) {
+                const savedPassword = localStorage.getItem("password");
+                
+                // Nếu không có mật khẩu đã lưu, lưu mật khẩu mới
+                if (!savedPassword) {
+                    localStorage.setItem("password", passwordInput);
+                    alert("Mật khẩu đã được lưu!");
+                } else if (savedPassword === passwordInput) {
+                    alert("Mở khóa thành công!");
+                } else {
+                    alert("Mật khẩu không chính xác!");
+                }
+            } else {
+                alert("Vui lòng nhập 4 ký tự số.");
+            }
+        }
+
+        // Hàm để mở khóa bằng vân tay
+        function unlockWithFingerprint() {
+            if (window.PublicKeyCredential) {
+                alert("Trình duyệt của bạn hỗ trợ vân tay!");
+                // Giả lập yêu cầu vân tay
+                navigator.credentials.get({
+                    publicKey: {
+                        challenge: new Uint8Array([/* mã hóa challenge */]),
+                        rp: { name: "Trang web của bạn" },
+                        user: { id: new Uint8Array(16), name: "user", displayName: "User" },
+                        pubKeyCredParams: [{ alg: -7, type: "public-key" }]
+                    }
+                }).then(function (assertion) {
+                    alert("Mở khóa bằng vân tay thành công!");
+                }).catch(function (error) {
+                    alert("Mở khóa bằng vân tay thất bại!");
+                });
+            } else {
+                alert("Trình duyệt của bạn không hỗ trợ mở khóa bằng vân tay.");
+            }
+        }
+    </script>
+
 </body>
 </html>
